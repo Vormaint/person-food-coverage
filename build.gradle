@@ -1,0 +1,77 @@
+apply from: 'dependencies.gradle'
+
+buildscript {
+    apply from: 'dependencies.gradle'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:1.6.10"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.5.5"
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'org.springframework.boot'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    apply from: 'dependencies.gradle'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+
+    implementation("org.springframework.boot:spring-boot-starter-web:2.5.5") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    implementation "com.cjcrafter:openai:1.3.0"
+    implementation "org.springframework.boot:spring-boot-starter-jetty:2.5.5"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:2.5.5"
+    implementation "com.squareup.okhttp3:okhttp:4.9.3"
+    implementation 'org.json:json:20211205'
+
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.12.5"
+    implementation "com.fasterxml.jackson.core:jackson-core:2.12.5"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.12.5"
+    runtimeOnly "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.5"
+    runtimeOnly "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5"
+    runtimeOnly "com.fasterxml.jackson.module:jackson-module-kotlin:2.12.5"
+
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.6.10"
+    implementation 'mysql:mysql-connector-java:8.0.27'
+
+    implementation("org.jetbrains.exposed:exposed-core:0.37.3")
+    implementation("org.jetbrains.exposed:exposed-dao:0.37.3")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.37.3")
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        exceptionFormat = 'full'
+        events = ["passed", "failed", "skipped"]
+    }
+
+    // Fail the 'test' task on the first test failure
+    failFast = true
+}
+
+idea {
+    module {
+        // When building the project in IntelliJ, use the same output path as Gradle.
+        inheritOutputDirs = false
+        outputDir = compileJava.destinationDir
+        testOutputDir = compileTestJava.destinationDir
+    }
+}

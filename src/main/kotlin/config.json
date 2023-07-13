@@ -1,0 +1,6 @@
+{
+  "databaseUrl": "databaseUrl",
+  "databaseUser": "databaseUser",
+  "databasePassword": "databasePassword",
+  "openAiToken": "OPENAI_TOKEN"
+}
